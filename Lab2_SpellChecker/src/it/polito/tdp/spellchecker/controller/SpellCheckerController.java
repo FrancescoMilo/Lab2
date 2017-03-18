@@ -1,7 +1,14 @@
 package it.polito.tdp.spellchecker.controller;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.spellchecker.controller.model.Dictionary;
+import it.polito.tdp.spellchecker.controller.model.EnglishDictionary;
+import it.polito.tdp.spellchecker.controller.model.ItalianDictionary;
+import it.polito.tdp.spellchecker.controller.model.RichWord;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 public class SpellCheckerController {
+	
+	private Dictionary model;
 
     @FXML
     private ResourceBundle resources;
@@ -45,7 +54,41 @@ public class SpellCheckerController {
 
     @FXML
     void doSpellCheck(ActionEvent event) {
+    	
+    	String lingua = cbxLingua.getValue();
+    	if(lingua.equals("English")==true){
+    		EnglishDictionary modelOK = (EnglishDictionary) model;
+    		modelOK.loadDictionary();
+    	}
+    	else{
+    		ItalianDictionary modelOK = (ItalianDictionary) model;
+    		modelOK.loadDictionary();
+    	}
+    	String array[] = txtInput.getText().split(" ");
+    	LinkedList<String> parametro = new LinkedList<String>();
+    	for(int i = 0; i<array.length ; i++)
+    		parametro.add(array[i]);
+    	long t1 = System.nanoTime();
+    	List<RichWord> risultato = model.spellCheckTest(parametro);
+    	long t2 = System.nanoTime();
+    	int countErrori = 0;
+    	StringBuilder restituisci = new StringBuilder();
+    	for(RichWord rw : risultato){
+    		if(rw.isCorretta()==true)
+    			restituisci.append(rw.getParola()+" ");
+    		else{
+    			countErrori++;
+    			restituisci.append(rw.getCorrezione()+" ");
+    		}
+    	}
+    	lblRisultato.setText("Ci sono "+countErrori+" errori");
+    	lblTempistiche.setText("Tempo impiegato: "+((t2-t1)*(10^-9)));
+    	txtResult.setText(restituisci.toString());
 
+    }
+    
+    public void setModel(Dictionary model){
+    	this.model=model;
     }
 
     @FXML

@@ -24,7 +24,16 @@ public class MainProva {
 		testo.add("name");
 		testo.add("iss");
 		testo.add("livve");
+		/*testo.add("ciao");
+		testo.add("casamatta");
+		testo.add("casalese");
+		testo.add("Francesco");
+		testo.add("tutto");
+		testo.add("caruncolo");
+		testo.add("caruccio");*/
+		long t1 = System.nanoTime();
 		List<RichWord> risultato = i.spellCheckTest(testo);
+		long t2 = System.nanoTime();
 		for(RichWord rw : risultato){
 			if(rw.isCorretta()==true)
 				System.out.println("Corretta: "+rw.getParola());
@@ -32,6 +41,7 @@ public class MainProva {
 				System.out.println("La parola: "+rw.getParola()+" è errata e la correzione è: "+rw.getCorrezione());
 			}
 		}
+		System.out.println("Tempo: "+((t2-t1)/1000000) + " millisecondi");
 
 	}
 
