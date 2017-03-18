@@ -7,10 +7,10 @@ public class MainProva {
 
 	public static void main(String[] args) {
 		
-		EnglishDictionary i = new EnglishDictionary();
+		ItalianDictionary i = new ItalianDictionary();
 		i.loadDictionary();
 		List<String> testo = new ArrayList<String>();
-		testo.add("hello");
+		/*testo.add("hello");
 		testo.add("homme");
 		testo.add("todayy");
 		testo.add("tree");
@@ -23,14 +23,14 @@ public class MainProva {
 		testo.add("my");
 		testo.add("name");
 		testo.add("iss");
-		testo.add("livve");
-		/*testo.add("ciao");
+		testo.add("livve");*/
+		testo.add("ciao");
 		testo.add("casamatta");
 		testo.add("casalese");
 		testo.add("Francesco");
 		testo.add("tutto");
 		testo.add("caruncolo");
-		testo.add("caruccio");*/
+		testo.add("caruccio");
 		long t1 = System.nanoTime();
 		List<RichWord> risultato = i.spellCheckTest(testo);
 		long t2 = System.nanoTime();

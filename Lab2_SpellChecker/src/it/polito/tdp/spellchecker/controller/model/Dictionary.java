@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Dictionary {
 	
-	protected List<String> dizionario;
+	protected ArrayList<String> dizionario;
 	
 	public Dictionary(){
 		dizionario = new ArrayList<String>();
@@ -23,7 +23,7 @@ public class Dictionary {
 			boolean normale = false;
 			boolean corr = false;
 			
-			
+			/*
 			
 			// Algortimo con il contains (MIGLIORE)
 			
@@ -49,11 +49,11 @@ public class Dictionary {
 					risultato.add(new RichWord(s, false, "nessuna correzione disponibile"));
 			}
 			
-			
+			*/
 			
 			/*
 			
-			//Algoritmo con ricerca dicotomica (SECONDO)
+			//Algoritmo con ricerca dicotomica (SECONDO) - Errata
 			
 			if(dizionario.get((int) (dizionario.size()*0.5)).compareTo(s)==0){
 				// parola trovata corretta
@@ -102,7 +102,7 @@ public class Dictionary {
 			
 			/*
 			 
-			 // Algortimo con doppia ricerca dicotomica (PEGGIORE)
+			 // Algortimo con doppia ricerca dicotomica (PEGGIORE) - Errata
 			 
 			 boolean posizione = false;
 			if(dizionario.get((int) (dizionario.size()*0.5)).compareTo(s)==0){
@@ -163,6 +163,40 @@ public class Dictionary {
 			}
 			 
 			 */
+			
+			// Algoritmo con vera ricerca dicotomica
+			int start = 0;
+			int end = dizionario.size()-1;
+			while(normale==false){
+				List<String> temp =  dizionario.subList(start, end+1);
+				if(temp.get(temp.size()/2).compareTo(s)==0){
+					normale=true;
+					corr=true;
+				}
+				else if(temp.get(temp.size()/2).compareTo(s)<0){
+					start = temp.size()/2;
+				}
+				else{
+					end = temp.size()/2;
+				}
+			}
+			if(normale==false){
+				for(String d : dizionario){
+					if(d.charAt(0)==s.charAt(0)){
+						LevenstheinDistance l = new LevenstheinDistance();
+						int distance = l.Distance(s, d);
+						if(distance<=1){
+							risultato.add(new RichWord(s, false, d));
+							corr = true;
+							break;
+							}
+					}
+					
+				}
+				if(corr== false)
+					risultato.add(new RichWord(s, false, "nessuna correzione disponibile"));
+			}
+			
 			
 		}
 		return risultato;
