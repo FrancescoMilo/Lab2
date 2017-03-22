@@ -181,7 +181,7 @@ public class Dictionary {
 					//System.out.println("Trovata");
 				}
 				else if(dizionario.get((start+end)/2).compareTo(s)<0){
-					start = (start+end)/2 ;
+					start = (start+end)/2 +1;
 					
 					//System.out.println("Prima metà");
 				}
