@@ -19,6 +19,10 @@ import javafx.scene.control.TextArea;
 public class SpellCheckerController {
 	
 	private Dictionary model;
+	
+	private ItalianDictionary italiano;
+	
+	private EnglishDictionary inglese;
 
     @FXML
     private ResourceBundle resources;
@@ -49,6 +53,12 @@ public class SpellCheckerController {
 
     @FXML
     void doClear(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	txtInput.clear();
+    	model.clearDictionary();
+    	lblTempistiche.setText("Tempistiche");
+    	lblRisultato.setText("Risultato");
 
     }
 
@@ -56,14 +66,18 @@ public class SpellCheckerController {
     void doSpellCheck(ActionEvent event) {
     	
     	String lingua = cbxLingua.getValue();
-    	if(lingua.equals("English")==true){
-    		EnglishDictionary modelOK = (EnglishDictionary) model;
-    		modelOK.loadDictionary();
+    	if(lingua.equals("Italian")==true){
+    		ItalianDictionary italiano = new ItalianDictionary();
+    		italiano.loadDictionary();
+    		model = italiano;
     	}
     	else{
-    		ItalianDictionary modelOK = (ItalianDictionary) model;
-    		modelOK.loadDictionary();
+    		EnglishDictionary inglese = new EnglishDictionary();
+    		inglese.loadDictionary();
+    		model = inglese;
+    		
     	}
+    	//model.loadDictionary();
     	String array[] = txtInput.getText().split(" ");
     	LinkedList<String> parametro = new LinkedList<String>();
     	for(int i = 0; i<array.length ; i++)
@@ -82,7 +96,7 @@ public class SpellCheckerController {
     		}
     	}
     	lblRisultato.setText("Ci sono "+countErrori+" errori");
-    	lblTempistiche.setText("Tempo impiegato: "+((t2-t1)*(10^-9)));
+    	lblTempistiche.setText("Tempo impiegato: "+((t2-t1)/1000000)+" millisecondi");
     	txtResult.setText(restituisci.toString());
 
     }

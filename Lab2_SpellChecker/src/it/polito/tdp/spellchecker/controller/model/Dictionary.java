@@ -3,6 +3,7 @@ package it.polito.tdp.spellchecker.controller.model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Dictionary {
@@ -14,6 +15,7 @@ public class Dictionary {
 	}
 	
 	public void loadDictionary(){
+		
 		
 	}
 	
@@ -164,20 +166,29 @@ public class Dictionary {
 			 
 			 */
 			
+			
+			
 			// Algoritmo con vera ricerca dicotomica
+			Collections.sort(dizionario);
 			int start = 0;
 			int end = dizionario.size()-1;
-			while(normale==false){
-				List<String> temp =  dizionario.subList(start, end+1);
-				if(temp.get(temp.size()/2).compareTo(s)==0){
+			while(normale==false && start<end){
+				//List<String> temp =  dizionario.subList(start, end+1);
+				if(dizionario.get((start+end)/2).compareTo(s)==0){
+					risultato.add(new RichWord(s,true,null));
 					normale=true;
 					corr=true;
+					//System.out.println("Trovata");
 				}
-				else if(temp.get(temp.size()/2).compareTo(s)<0){
-					start = temp.size()/2;
+				else if(dizionario.get((start+end)/2).compareTo(s)<0){
+					start = (start+end)/2 ;
+					
+					//System.out.println("Prima metà");
 				}
 				else{
-					end = temp.size()/2;
+					
+					end = (start+end)/2 ;
+					//System.out.println("Seconda metà");
 				}
 			}
 			if(normale==false){
@@ -198,9 +209,14 @@ public class Dictionary {
 			}
 			
 			
+			
 		}
 		return risultato;
 		
+	}
+	
+	public void clearDictionary(){
+		dizionario.clear();
 	}
 	
 	
